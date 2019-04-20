@@ -11,7 +11,7 @@ import (
 )
 
 // CreateContact -
-var CreateContact = func(w http.ResponseWriter, r *http.Request) {
+func CreateContact(w http.ResponseWriter, r *http.Request) {
 
 	// Get User from Context
 	user := r.Context().Value("user").(uint)
@@ -27,7 +27,7 @@ var CreateContact = func(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetContactsFor -
-var GetContactsFor = func(w http.ResponseWriter, r *http.Request) {
+func GetContactsFor(w http.ResponseWriter, r *http.Request) {
 
 	params := mux.Vars(r)
 	id, err := strconv.Atoi(params["id"])

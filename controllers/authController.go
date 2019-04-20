@@ -9,7 +9,7 @@ import (
 )
 
 // CreateUser -
-var CreateUser = func(w http.ResponseWriter, r *http.Request) {
+func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	account := &models.Account{}
 	err := json.NewDecoder(r.Body).Decode(account)
@@ -22,7 +22,7 @@ var CreateUser = func(w http.ResponseWriter, r *http.Request) {
 }
 
 // Authenticate -
-var Authenticate = func(w http.ResponseWriter, r *http.Request) {
+func Authenticate(w http.ResponseWriter, r *http.Request) {
 
 	account := &models.Account{}
 	err := json.NewDecoder(r.Body).Decode(account)
