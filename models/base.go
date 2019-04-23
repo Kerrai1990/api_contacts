@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"github.com/joho/godotenv"
-	_ "github.com/lib/pq"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 var db *gorm.DB
@@ -18,36 +18,20 @@ func GetDB() *gorm.DB {
 
 func init() {
 
-	e := godotenv.Load()
-	if e != nil {
-		fmt.Println(e)
-	}
+	connStr := "root:password@tcp(127.0.0.1:33060)/contacts?charset=utf8"
 
-	// host := getEnv("DB_HOST", "")
-	// username := getEnv("DB_USER", "")
-	// password := getEnv("DB_PASS", "")
-	// name := getEnv("DB_NAME", "")
-
-	host := "localhost"
-	username := "root"
-	password := "password"
-	name := "contacts"
-
-	connStr := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", host, username, name, password)
-
-	fmt.Println(connStr)
-
-	conn, err := gorm.Open("postgres", connStr)
+	conn, err := gorm.Open("mysql", connStr)
 	if err != nil {
-		fmt.Print(err)
+		fmt.Println(connStr)
+		fmt.Println(err)
 	}
-
-	// Migrate DB
-	conn.Debug().AutoMigrate(&Account{}, &Contact{})
-
-	defer db.Close()
 
 	fmt.Println("Successfully connected to DB!")
+
+	// Migrate DB
+	fmt.Println("Running Migration")
+	conn.Debug().AutoMigrate(&Account{}, &Contact{})
+	fmt.Println("Migration Complete")
 
 }
 

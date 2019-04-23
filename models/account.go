@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
@@ -26,6 +27,9 @@ type Account struct {
 
 //Validate user
 func (acc *Account) Validate() (map[string]interface{}, bool) {
+
+	fmt.Printf("Validating new user: %S : %S", acc.Email, acc.Password)
+	fmt.Println("*********")
 
 	if !strings.Contains(acc.Email, "@") {
 		return u.Message(false, "Email Address is not valid"), false

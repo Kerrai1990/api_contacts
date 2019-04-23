@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/kerrai1990/api_contacts/app"
@@ -14,18 +13,12 @@ func main() {
 
 	router := mux.NewRouter()
 	router.Use(app.JwtAuthentication)
-	router.HandleFunc("/api/user/new", controllers.CreateUser).Methods("POST")
-	router.HandleFunc("/api/user/login", controllers.Authenticate).Methods("POST")
-	router.HandleFunc("/api/me/contacts", controllers.GetContactsFor).Methods("GET")
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8000"
-	}
+	router.HandleFunc("/api/users", controllers.CreateUser).Methods("POST")
+	router.HandleFunc("/api/session", controllers.Authenticate).Methods("POST")
+	router.HandleFunc("/api/users/{id}/contacts", controllers.GetContactsFor).Methods("GET")
 
-	fmt.Println(port)
-
-	err := http.ListenAndServe(":"+port, router)
+	err := http.ListenAndServe(":8089", router)
 	if err != nil {
 		fmt.Print(err)
 	}

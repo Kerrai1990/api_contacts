@@ -19,8 +19,8 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 
 		// Urls that don't need authentication
 		notAuth := []string{
-			"/api/user/new",
-			"/api/user/login",
+			"/api/users",
+			"/api/session",
 		}
 
 		// Get the current request path
