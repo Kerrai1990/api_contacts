@@ -20,7 +20,9 @@ func init() {
 
 	connStr := "root:password@tcp(127.0.0.1:33060)/contacts?charset=utf8"
 
-	conn, err := gorm.Open("mysql", connStr)
+	var err error
+
+	db, err = gorm.Open("mysql", connStr)
 	if err != nil {
 		fmt.Println(connStr)
 		fmt.Println(err)
@@ -30,7 +32,7 @@ func init() {
 
 	// Migrate DB
 	fmt.Println("Running Migration")
-	conn.Debug().AutoMigrate(&Account{}, &Contact{})
+	db.Debug().AutoMigrate(&Account{}, &Contact{})
 	fmt.Println("Migration Complete")
 
 }

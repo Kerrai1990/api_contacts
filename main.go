@@ -17,6 +17,7 @@ func main() {
 	router.HandleFunc("/api/users", controllers.CreateUser).Methods("POST")
 	router.HandleFunc("/api/session", controllers.Authenticate).Methods("POST")
 	router.HandleFunc("/api/users/{id}/contacts", controllers.GetContactsFor).Methods("GET")
+	router.HandleFunc("/api/users/{id}/contacts", controllers.CreateContact).Methods("POST")
 
 	err := http.ListenAndServe(":8089", router)
 	if err != nil {

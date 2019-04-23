@@ -26,9 +26,12 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 		// Get the current request path
 		requestPath := r.URL.Path
 
+		fmt.Println(requestPath)
+
 		for _, value := range notAuth {
 			if value == requestPath {
 				next.ServeHTTP(w, r)
+				return
 			}
 		}
 

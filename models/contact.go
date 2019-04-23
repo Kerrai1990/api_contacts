@@ -2,17 +2,20 @@ package models
 
 import (
 	"fmt"
+	"time"
 
-	"github.com/jinzhu/gorm"
 	u "github.com/kerrai1990/api_contacts/utils"
 )
 
 // Contact -
 type Contact struct {
-	gorm.Model
-	Name   string `json:"name"`
-	Phone  string `json:"phone"`
-	UserID uint   `json:"user_id"`
+	ID        uint       `gorm:"primary_key"`
+	Name      string     `json:"name"`
+	Phone     string     `json:"phone"`
+	UserID    uint       `json:"user_id"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	DeletedAt *time.Time `json:"deleted_at";sql:"index"`
 }
 
 // Validate -

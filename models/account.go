@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
@@ -19,17 +20,19 @@ type Token struct {
 
 //Account -
 type Account struct {
-	gorm.Model
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Token    string `json:"token";sql:"-"`
+	ID        uint       `gorm:"primary_key"`
+	Email     string     `json:"email"`
+	Password  string     `json:"password"`
+	Token     string     `json:"token";sql:"-"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	DeletedAt *time.Time `json:"deleted_at";sql:"index"`
 }
 
 //Validate user
 func (acc *Account) Validate() (map[string]interface{}, bool) {
 
-	fmt.Printf("Validating new user: %S : %S", acc.Email, acc.Password)
-	fmt.Println("*********")
+	fmt.Printf("Validating new user: %v : %v", acc.Email, acc.Password)
 
 	if !strings.Contains(acc.Email, "@") {
 		return u.Message(false, "Email Address is not valid"), false
@@ -41,13 +44,10 @@ func (acc *Account) Validate() (map[string]interface{}, bool) {
 
 	temp := &Account{}
 
-	err := GetDB().Table("accounts").Where("email = ?", acc.Email).First(temp)
+	err := GetDB().Table("accounts").Where("email = ?", acc.Email).First(temp).Error
 
-	if err != nil {
-		return u.Message(false, "Connection Error"), false
-	}
-
-	if temp.Email != "" {
+	if err != gorm.ErrRecordNotFound {
+		fmt.Println(err)
 		return u.Message(false, "Email already in use"), false
 	}
 
