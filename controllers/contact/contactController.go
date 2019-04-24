@@ -1,7 +1,8 @@
-package controllers
+package contact
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -36,6 +37,7 @@ func GetContactsFor(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println(params)
 	data := models.GetUserContacts(uint(id))
 	response := u.Message(true, "Success")
 	response["data"] = data

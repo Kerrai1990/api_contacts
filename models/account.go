@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
@@ -20,13 +19,13 @@ type Token struct {
 
 //Account -
 type Account struct {
-	ID        uint       `gorm:"primary_key"`
-	Email     string     `json:"email"`
-	Password  string     `json:"password"`
-	Token     string     `json:"token";sql:"-"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedAt *time.Time `json:"deleted_at";sql:"index"`
+	ID       uint   `gorm:"primary_key"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	Token    string `json:"token";sql:"-"`
+	// CreatedAt time.Time  `json:"created_at"`
+	// UpdatedAt time.Time  `json:"updated_at"`
+	// DeletedAt *time.Time `json:"deleted_at";sql:"index"`
 }
 
 //Validate user

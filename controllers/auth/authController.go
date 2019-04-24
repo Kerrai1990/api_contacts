@@ -1,7 +1,8 @@
-package controllers
+package auth
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/kerrai1990/api_contacts/models"
@@ -29,6 +30,8 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		u.Respond(w, u.Message(false, "Invalid Request"))
 	}
+
+	fmt.Println(account)
 
 	response := models.Login(account.Email, account.Password)
 	u.Respond(w, response)

@@ -2,20 +2,19 @@ package models
 
 import (
 	"fmt"
-	"time"
 
 	u "github.com/kerrai1990/api_contacts/utils"
 )
 
 // Contact -
 type Contact struct {
-	ID        uint       `gorm:"primary_key"`
-	Name      string     `json:"name"`
-	Phone     string     `json:"phone"`
-	UserID    uint       `json:"user_id"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedAt *time.Time `json:"deleted_at";sql:"index"`
+	ID     uint   `gorm:"primary_key"`
+	Name   string `json:"name"`
+	Phone  string `json:"phone"`
+	UserID uint   `json:"user_id"`
+	// CreatedAt time.Time  `json:"created_at"`
+	// UpdatedAt time.Time  `json:"updated_at"`
+	// DeletedAt *time.Time `json:"deleted_at";sql:"index"`
 }
 
 // Validate -
@@ -41,13 +40,14 @@ func (contact *Contact) Validate() (map[string]interface{}, bool) {
 func (contact *Contact) Create() map[string]interface{} {
 
 	if response, ok := contact.Validate(); !ok {
+		fmt.Println(response)
 		return response
 	}
 
 	GetDB().Create(contact)
-
 	response := u.Message(true, "success")
 	response["contact"] = contact
+
 	return response
 
 }
@@ -67,10 +67,20 @@ func GetContact(id uint) *Contact {
 }
 
 // GetUserContacts -
-func GetUserContacts(userID uint) []*Contact {
+func GetUserContacts(userID uint) interface{} {
 
-	contacts := make([]*Contact, 0)
-	err := GetDB().Table("contacts").Where("user_id = ?", userID).Find(&contacts).Error
+	fmt.Println(userID)
+
+	// contacts := make([]*Contact, 0)
+	contacts := &Contact{}
+
+	fmt.Println(contacts)
+
+	// err := GetDB().Table("contacts").Where("user_id = ?", userID).Find(&contacts).Error
+	err := GetDB().Table("contacts").Where("user_id = ?", userID).First(contacts).Error
+
+	fmt.Println(err)
+
 	if err != nil {
 		fmt.Println(err)
 		return nil
