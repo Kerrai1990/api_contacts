@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  db:
+    image: mysql:5.7
+    volumes: 
+      - "./mysql/test.sql:/docker-entrypoint-initdb.d/test.sql"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: contacts
+    container_name: api_contacts_db
+    ports:
+      - "33060:3306"
+    tty: true
+
+  app:
+    build:
+      context: .
+      target: builder
+    container_name: api_contacts_app
+    volumes: 
+      - "./:/usr/src/app"
+    ports:
+      - "8080:8080"
+    tty: true
+    depends_on:
+      - db  

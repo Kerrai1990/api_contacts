@@ -19,13 +19,10 @@ type Token struct {
 
 //Account -
 type Account struct {
-	ID       uint   `gorm:"primary_key"`
+	gorm.Model
 	Email    string `json:"email"`
-	Password string `json:"password"`
+	Password string `json:"password,omitempty"`
 	Token    string `json:"token";sql:"-"`
-	// CreatedAt time.Time  `json:"created_at"`
-	// UpdatedAt time.Time  `json:"updated_at"`
-	// DeletedAt *time.Time `json:"deleted_at";sql:"index"`
 }
 
 //Validate user

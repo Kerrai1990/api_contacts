@@ -16,9 +16,12 @@ func GetDB() *gorm.DB {
 	return db
 }
 
-func init() {
+// MakeDB -
+func MakeDB() {
 
-	connStr := "root:password@tcp(127.0.0.1:33060)/contacts?charset=utf8"
+	fmt.Println("Connecting to DB")
+	connStr := "root:password@tcp(api_contacts_db:3306)/contacts?charset=utf8"
+	fmt.Println(connStr)
 
 	var err error
 
@@ -26,6 +29,7 @@ func init() {
 	if err != nil {
 		fmt.Println(connStr)
 		fmt.Println(err)
+		return
 	}
 
 	fmt.Println("Successfully connected to DB!")
@@ -34,7 +38,6 @@ func init() {
 	fmt.Println("Running Migration")
 	db.Debug().AutoMigrate(&Account{}, &Contact{})
 	fmt.Println("Migration Complete")
-
 }
 
 // Simple helper function to read an environment or return a default value

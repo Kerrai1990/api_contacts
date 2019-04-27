@@ -2,19 +2,16 @@ package models
 
 import (
 	"fmt"
-
+	"github.com/jinzhu/gorm"
 	u "github.com/kerrai1990/api_contacts/utils"
 )
 
 // Contact -
 type Contact struct {
-	ID     uint   `gorm:"primary_key"`
+	gorm.Model
 	Name   string `json:"name"`
 	Phone  string `json:"phone"`
 	UserID uint   `json:"user_id"`
-	// CreatedAt time.Time  `json:"created_at"`
-	// UpdatedAt time.Time  `json:"updated_at"`
-	// DeletedAt *time.Time `json:"deleted_at";sql:"index"`
 }
 
 // Validate -
@@ -30,7 +27,7 @@ func (contact *Contact) Validate() (map[string]interface{}, bool) {
 
 	if contact.UserID <= 0 {
 		return u.Message(false, "User ID is incorrect"), false
-	}
+	} 
 
 	return u.Message(true, "success"), true
 
